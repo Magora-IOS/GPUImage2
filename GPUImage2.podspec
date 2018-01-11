@@ -1,38 +1,18 @@
-{
-  "name": "EVGPUImage2",
-  "version": "0.1.0",
-  "license": "BSD",
-  "summary": "An open source iOS framework for GPU-based image and video processing.",
-  "homepage": "https://github.com/BradLarson/GPUImage2",
-  "authors": {
-    "Brad Larson": "contact@sunsetlakesoftware.com"
-  },
-  "source": {
-    "git": "https://github.com/Magora-IOS/GPUImage2.git",
-    "branch": "master"
-  },
-  "source_files": "framework/Source/**/*.{swift}",
-  "resources": "framework/Source/Operations/Shaders/*.{fsh}",
-  "requires_arc": true,
-  "xcconfig": {
-    "CLANG_MODULES_AUTOLINK": "YES",
-    "OTHER_SWIFT_FLAGS": "$(inherited) -DGLES"
-  },
-  "platforms": {
-    "ios": "8.0"
-  },
-  "ios": {
-    "exclude_files": [
-      "framework/Source/Mac",
-      "framework/Source/Linux",
-      "framework/Source/Operations/Shaders/ConvertedShaders_GL.swift"
-    ]
-  },
-  "frameworks": [
-    "OpenGLES",
-    "CoreMedia",
-    "QuartzCore",
-    "AVFoundation"
-  ],
-  "pushed_with_swift_version": "3.0"
-}
+Pod::Spec.new do |s|
+    s.name     = 'GPUImage2'
+    s.version  = '0.1.0'
+    s.license  = 'BSD'
+    s.summary  = 'An open source iOS framework for GPU-based image and video processing.'
+    s.homepage = 'https://github.com/BradLarson/GPUImage2'
+    s.author   = { 'Brad Larson' => 'contact@sunsetlakesoftware.com' }
+    s.source   = { :git => 'https://github.com/Magora-IOS/GPUImage2.git', :branch => "master" }
+    s.source_files = 'framework/Source/**/*.{swift}'
+    s.resources = 'framework/Source/Operations/Shaders/*.{fsh}'
+    s.requires_arc = true
+    s.xcconfig = { 'CLANG_MODULES_AUTOLINK' => 'YES',
+                          'OTHER_SWIFT_FLAGS' => "$(inherited) -DGLES"}
+    s.ios.deployment_target = '8.0'
+    s.ios.exclude_files = 'framework/Source/Mac', 'framework/Source/Linux', 'framework/Source/Operations/Shaders/ConvertedShaders_GL.swift'
+    s.frameworks   = ['OpenGLES', 'CoreMedia', 'QuartzCore', 'AVFoundation']
+
+  end
