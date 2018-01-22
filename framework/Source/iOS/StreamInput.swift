@@ -41,22 +41,32 @@ public class StreamInput: ImageSource {
     // MARK: -
     // MARK: Playback control
     
+    var gavPlayer:AVPlayer!
+    var gplayerItem:AVPlayerItem!
+    var goutput:AVPlayerItemVideoOutput!
+    
     public func start() {
         asset.loadValuesAsynchronously(forKeys: ["tracks"]) {
             var error: NSError? = nil
-            let status = asset.statusOfValue(forKey: "tracks", error: &error)
+            let status = self.asset.statusOfValue(forKey: "tracks", error: &error)
             
             switch status {
             case .loaded:
                 let settings:Dictionary = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA]
-                self.output = AVPlayerItemVideoOutput(pixelBufferAttributes: settings)
-                self.playerItem = AVPlayerItem(asset: asset)
-                self.playerItem.add(self.output)
-                self.avPlayer.replaceCurrentItem(with: self.playerItem)
-                //                    [self setPlayer:player];
-                //                    [self setPlayerItem:playerItem];
-                //                    [self setOutput:output];
-                self.startAvPlayerStream()
+                let output:AVPlayerItemVideoOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: settings)
+                let playerItem:AVPlayerItem = AVPlayerItem(asset: self.asset)
+                playerItem.add(output)
+                let avPlayer:AVPlayer = AVPlayer(playerItem: playerItem)
+                self.gavPlayer = avPlayer
+                self.gplayerItem = playerItem
+                self.goutput = output
+//                self.startAvPlayerStream()
+                
+                while (true) {
+                    self.readNextVideoFrame()
+                }
+                
+                
                 break
             // Sucessfully loaded, continue processing
             default:
@@ -67,7 +77,7 @@ public class StreamInput: ImageSource {
     }
     
     public func cancel() {
-        assetReader.cancelReading()
+        //assetReader.cancelReading()
         self.endProcessing()
     }
     
@@ -78,12 +88,13 @@ public class StreamInput: ImageSource {
     // MARK: -
     // MARK: Internal processing functions
     
-    func readNextVideoFrame(from videoTrackOutput:AVAssetReaderOutput) {
-        if ((assetReader.status == .reading) && !videoEncodingIsFinished) {
-            if let sampleBuffer = videoTrackOutput.copyNextSampleBuffer() {
+    func readNextVideoFrame() {
+        if ( !videoEncodingIsFinished) {
+            if let sampleBuffer: CVPixelBuffer = self.goutput.copyPixelBuffer(forItemTime: self.gplayerItem.currentTime(), itemTimeForDisplay: nil) {
+          //  if let sampleBuffer = videoTrackOutput.copyNextSampleBuffer() {
                 if (playAtActualSpeed) {
                     // Do this outside of the video processing queue to not slow that down while waiting
-                    let currentSampleTime = CMSampleBufferGetOutputPresentationTimeStamp(sampleBuffer)
+                    let currentSampleTime = self.gplayerItem.currentTime()
                     let differenceFromLastFrame = CMTimeSubtract(currentSampleTime, previousFrameTime)
                     let currentActualTime = CFAbsoluteTimeGetCurrent()
                     
@@ -99,8 +110,7 @@ public class StreamInput: ImageSource {
                 }
                 
                 sharedImageProcessingContext.runOperationSynchronously{
-                    self.process(movieFrame:sampleBuffer)
-                    CMSampleBufferInvalidate(sampleBuffer)
+                    self.process(movieFrame:sampleBuffer, withSampleTime:self.gplayerItem.currentTime())
                 }
             } else {
                 if (!loop) {
@@ -119,13 +129,13 @@ public class StreamInput: ImageSource {
         
     }
     
-    func process(movieFrame frame:CMSampleBuffer) {
-        let currentSampleTime = CMSampleBufferGetOutputPresentationTimeStamp(frame)
-        let movieFrame = CMSampleBufferGetImageBuffer(frame)!
-        
-        //        processingFrameTime = currentSampleTime
-        self.process(movieFrame:movieFrame, withSampleTime:currentSampleTime)
-    }
+//    func process(movieFrame frame:CMSampleBuffer) {
+//        let currentSampleTime = CMSampleBufferGetOutputPresentationTimeStamp(frame)
+//        let movieFrame = CMSampleBufferGetImageBuffer(frame)!
+//
+//        //        processingFrameTime = currentSampleTime
+//        self.process(movieFrame:movieFrame, withSampleTime:currentSampleTime)
+//    }
     
     func process(movieFrame:CVPixelBuffer, withSampleTime:CMTime) {
         let bufferHeight = CVPixelBufferGetHeight(movieFrame)
