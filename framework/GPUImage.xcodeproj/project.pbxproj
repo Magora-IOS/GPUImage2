@@ -687,6 +687,8 @@
 		BCFF46FF1CBB0D8900A0C521 /* AverageColor_GL.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = AverageColor_GL.fsh; path = Source/Operations/Shaders/AverageColor_GL.fsh; sourceTree = "<group>"; };
 		BCFF47001CBB0D8900A0C521 /* AverageColor.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = AverageColor.vsh; path = Source/Operations/Shaders/AverageColor.vsh; sourceTree = "<group>"; };
 		BCFF47071CBB443B00A0C521 /* CameraConversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraConversion.swift; path = Source/CameraConversion.swift; sourceTree = "<group>"; };
+		CE1A49072017555E004C9BF4 /* MaskPixellate_GLES.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = MaskPixellate_GLES.fsh; path = Source/Operations/Shaders/MaskPixellate_GLES.fsh; sourceTree = "<group>"; };
+		CE1A49082017555E004C9BF4 /* MaskPixellate_GL.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = MaskPixellate_GL.fsh; path = Source/Operations/Shaders/MaskPixellate_GL.fsh; sourceTree = "<group>"; };
 		CE5CB41220079BFA0089E54D /* StreamInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StreamInput.swift; path = Source/iOS/StreamInput.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1175,6 +1177,8 @@
 			isa = PBXGroup;
 			children = (
 				BCB279E71C8D0BA30013E213 /* BasicOperation.swift */,
+				CE1A49082017555E004C9BF4 /* MaskPixellate_GL.fsh */,
+				CE1A49072017555E004C9BF4 /* MaskPixellate_GLES.fsh */,
 				BC91EDCE1C91E92000C704A8 /* OneInput.vsh */,
 				BC1E12F51C9F2FD7008F844F /* TwoInput.vsh */,
 				BC1E12F41C9F2FD7008F844F /* ThreeInput.vsh */,
