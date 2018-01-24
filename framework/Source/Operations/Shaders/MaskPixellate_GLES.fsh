@@ -6,7 +6,7 @@ precision mediump float;
 #define FORCE_FACTOR 1.0
 uniform sampler2D inputImageTexture;
 uniform vec2 u_Resolution;
-uniform int blurredCoords[200];
+//uniform int blurredCoords[200];
 
 uniform float fractionalWidthOfPixel;
 varying vec2 textureCoordinate;
@@ -33,7 +33,7 @@ bool shouldBlur(in vec2 currentFrag)
     int xIndex  = int(floor(currentFrag.x / fractionalWidthOfPixel));
     int yIndex = int(floor((u_Resolution.y - currentFrag.y) / fractionalWidthOfPixel));
     int index = yIndex * int(X_COUNT) + xIndex; //There's no 'int min(int, int)' function
-    return blurredCoords[index] == 1;
+    return 1; // blurredCoords[index] == 1;
 }
 void main ()
 {
