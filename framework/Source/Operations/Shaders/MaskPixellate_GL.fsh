@@ -4,13 +4,18 @@ uniform sampler2D inputImageTexture;
 
 uniform float fractionalWidthOfPixel;
 uniform float aspectRatio;
+uniform vec2 u_Resolution;
 
 void main()
 {
     vec2 sampleDivisor = vec2(fractionalWidthOfPixel, fractionalWidthOfPixel / aspectRatio);
     
     vec2 samplePos = textureCoordinate - mod(textureCoordinate, sampleDivisor) + 0.5 * sampleDivisor;
-    gl_FragColor = texture2D(inputImageTexture, samplePos );
+    if textureCoordinate.x < u_Resolution.x {
+        gl_FragColor = texture2D(inputImageTexture, samplePos);
+    } else {
+        gl_FragColor = texture2D(inputImageTexture, textureCoordinate);
+    }
 }
 
 
