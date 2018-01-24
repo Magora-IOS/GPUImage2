@@ -33,7 +33,7 @@ bool shouldBlur(in vec2 currentFrag)
     int xIndex  = int(floor(currentFrag.x / fractionalWidthOfPixel));
     int yIndex = int(floor((u_Resolution.y - currentFrag.y) / fractionalWidthOfPixel));
     int index = yIndex * int(X_COUNT) + xIndex; //There's no 'int min(int, int)' function
-    return u_BlurredCoords[index] == 1;
+    return blurredCoords[index] == 1;
 }
 void main ()
 {
