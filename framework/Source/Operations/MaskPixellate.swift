@@ -6,9 +6,28 @@ public class MaskPixellate: BasicOperation {
         }
     }
     
-    public init() {
+    public var u_Resolution:Size = Size(width:100, height:100) {
+        didSet {
+             uniformSettings["u_Resolution"] = u_Resolution
+        }
+    }
+    
+    public var blurredCoords: [Int] = [] {
+        didSet {
+            uniformSettings["blurredCoords"] = blurredCoords
+        }
+    }
+    
+    public init(resolution:Size, pixelMask:[Int]) {
         super.init(fragmentShader:MaskPixellateFragmentShader, numberOfInputs:1)
+        if pixelMask.count != 200 {
+            let array = Array(repeating: 1, count: 200)
+            ({blurredCoords = array})()
+        } else {
+            ({blurredCoords = pixelMask})()
+        }
         
+        ({u_Resolution = Size(width:100, height:100)})()
         ({fractionalWidthOfAPixel = 0.01})()
     }
 }
