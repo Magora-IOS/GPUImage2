@@ -33,6 +33,7 @@ public class ShaderProgram {
     private var uniformAddresses = [String:GLint]()
     private var currentUniformIntValues = [String:GLint]()
     private var currentUniformFloatValues = [String:GLfloat]()
+    private var currentUniformFloatIntValues = [String:[GLint]]()
     private var currentUniformFloatArrayValues = [String:[GLfloat]]()
     
     // MARK: -
@@ -112,6 +113,17 @@ public class ShaderProgram {
     
     // MARK: -
     // MARK: Uniform accessors
+    
+    public func setValue(_ value:[GLint], forUniform:String) {
+        guard let uniformAddress = uniformIndex(forUniform) else {
+            debugPrint("Warning: Tried to set a uniform (\(forUniform)) that was missing or optimized out by the compiler")
+            return
+        }
+        if let previousValue = currentUniformFloatIntValues[forUniform], previousValue == value{
+        } else {
+            currentUniformFloatIntValues[forUniform] = value
+        }
+    }
     
     public func setValue(_ value:GLfloat, forUniform:String) {
         guard let uniformAddress = uniformIndex(forUniform) else {
