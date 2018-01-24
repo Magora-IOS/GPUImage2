@@ -11,7 +11,7 @@ void main()
     vec2 sampleDivisor = vec2(fractionalWidthOfPixel, fractionalWidthOfPixel / aspectRatio);
     
     vec2 samplePos = textureCoordinate - mod(textureCoordinate, sampleDivisor) + 0.5 * sampleDivisor;
-    if textureCoordinate.x < u_Resolution.x {
+    if (textureCoordinate.x < u_Resolution.x) {
         gl_FragColor = texture2D(inputImageTexture, samplePos);
     } else {
         gl_FragColor = texture2D(inputImageTexture, textureCoordinate);
