@@ -11,6 +11,7 @@ uniform highp int blurredCoords[200];
 #define Y_COUNT 20
 #define S (u_Resolution.x / 20.0) // The cell size.
 
+
 void main()
 {
     highp vec2 sampleDivisor = vec2(fractionalWidthOfPixel, fractionalWidthOfPixel / aspectRatio);
@@ -22,16 +23,11 @@ void main()
     
     
  //   if (blurredCoords[index] == 1) {
- //           highp vec2 p = textureCoordinate.xy * u_Resolution.yx;
+            highp vec2 p = textureCoordinate.xy * u_Resolution.yx;
             gl_FragColor = texture2D(inputImageTexture, floor((p + 0.5) / S) * S / u_Resolution.yx);
   //      }else{
   //          gl_FragColor = texture2D(inputImageTexture, textureCoordinate);
   //      }
-        
-        sampleDivisor = vec2(fractionalWidthOfPixel + 0.05, (fractionalWidthOfPixel + 0.05) / aspectRatio);
-    }
     
-    highp vec2 samplePos = textureCoordinate - mod(textureCoordinate, sampleDivisor) + 0.5 * sampleDivisor;
-    gl_FragColor = texture2D(inputImageTexture, samplePos );
 }
 
