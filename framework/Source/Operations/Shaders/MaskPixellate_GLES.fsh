@@ -16,6 +16,10 @@ void main()
 {
     highp vec2 sampleDivisor = vec2(fractionalWidthOfPixel, fractionalWidthOfPixel / aspectRatio);
     
+    if (blurredCoords[0] == 1) {
+        sampleDivisor = vec2(fractionalWidthOfPixel + 0.05, (fractionalWidthOfPixel + 0.05) / aspectRatio);
+    }
+    
     highp vec2 samplePos = textureCoordinate - mod(textureCoordinate, sampleDivisor) + 0.5 * sampleDivisor;
     gl_FragColor = texture2D(inputImageTexture, samplePos );
 }
