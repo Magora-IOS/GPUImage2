@@ -21,13 +21,12 @@ void main()
     highp int yIndex = int(floor((u_Resolution.y - gl_FragCoord.y) / fractionalWidthOfPixel));
     highp int index = yIndex * int(X_COUNT) + xIndex;
     
-    
- //   if (blurredCoords[index] == 1) {
+       if (blurredCoords[index] == 1) {
             highp vec2 p = textureCoordinate.xy * u_Resolution.yx;
             gl_FragColor = texture2D(inputImageTexture, floor((p + 0.5) / S) * S / u_Resolution.yx);
-  //      }else{
-  //          gl_FragColor = texture2D(inputImageTexture, textureCoordinate);
-  //      }
+        }else{
+            gl_FragColor = texture2D(inputImageTexture, textureCoordinate);
+        }
     
 }
 
