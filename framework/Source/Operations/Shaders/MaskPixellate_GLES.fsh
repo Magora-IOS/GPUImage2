@@ -11,22 +11,11 @@ uniform highp int blurredCoords[200];
 //#define Y_COUNT 20
 //#define S (u_Resolution.x / 20.0) // The cell size.
 
-
-bool shouldBlur(in vec2 currentFrag)
-{
-//    highp int xIndex  = int(floor(currentFrag.x / fractionalWidthOfPixel));
-//    highp int yIndex = int(floor((u_Resolution.y - currentFrag.y) / fractionalWidthOfPixel));
-//    highp int index = yIndex * int(X_COUNT) + xIndex; //There's no 'int min(int, int)' function
-//    return blurredCoords[index] == 1;
-  //  return 1 == 1;
-    return currentFrag.x > currentFrag.y
-}
-
 void main()
 {
     highp vec2 sampleDivisor = vec2(fractionalWidthOfPixel, fractionalWidthOfPixel / aspectRatio);
     
-    if (shouldBlur(gl_FragCoord.xy)) {
+    if (gl_FragCoord.x > gl_FragCoord.y) {
         sampleDivisor = vec2(fractionalWidthOfPixel + 0.05, (fractionalWidthOfPixel + 0.05) / aspectRatio);
     }
     
