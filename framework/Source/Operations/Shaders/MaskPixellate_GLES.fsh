@@ -14,10 +14,17 @@ uniform highp int blurredCoords[200];
 void main()
 {
     highp vec2 sampleDivisor = vec2(fractionalWidthOfPixel, fractionalWidthOfPixel / aspectRatio);
+    highp vec2 samplePos = textureCoordinate - mod(textureCoordinate, sampleDivisor) + 0.5 * sampleDivisor;
     
     if (gl_FragCoord.x > gl_FragCoord.y) {
         sampleDivisor = vec2(fractionalWidthOfPixel + 0.05, (fractionalWidthOfPixel + 0.05) / aspectRatio);
     }
+    
+    highp int xIndex  = int(floor(currentFrag.x / fractionalWidthOfPixel));
+    highp int yIndex = int(floor((u_Resolution.y - currentFrag.y) / fractionalWidthOfPixel));
+    highp int index = yIndex * int(X_COUNT) + xIndex; //There's no 'int min(int, int)' function
+    return blurredCoords[index] == 1;
+    
     
     highp vec2 samplePos = textureCoordinate - mod(textureCoordinate, sampleDivisor) + 0.5 * sampleDivisor;
     gl_FragColor = texture2D(inputImageTexture, samplePos );
