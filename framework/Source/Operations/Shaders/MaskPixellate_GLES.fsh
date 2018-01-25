@@ -35,12 +35,12 @@ bool shouldBlur(in vec2 currentFrag)
 }
 void main ()
 {
-    if(shouldBlur(gl_FragCoord.xy)){
-        highp vec2 p = textureCoordinate.xy * u_Resolution.yx;
-        gl_FragColor = texture2D(inputImageTexture, floor((p + 0.5) / S) * S / u_Resolution.yx);
-    }else{
+//    if(shouldBlur(gl_FragCoord.xy)){
+//        highp vec2 p = textureCoordinate.xy * u_Resolution.yx;
+//        gl_FragColor = texture2D(inputImageTexture, floor((p + 0.5) / S) * S / u_Resolution.yx);
+//    }else{
         gl_FragColor = texture2D(inputImageTexture, textureCoordinate);
-    }
+   // }
 }
 
 //#extension GL_OES_EGL_image_external : require
