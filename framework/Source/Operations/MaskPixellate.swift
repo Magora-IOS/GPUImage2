@@ -28,6 +28,6 @@ public class MaskPixellate: BasicOperation {
         }
         
         ({u_Resolution = resolution})()
-        ({fractionalWidthOfAPixel = 1.0})()
+        ({fractionalWidthOfAPixel = resolution.width / 10.0})()
     }
 }
