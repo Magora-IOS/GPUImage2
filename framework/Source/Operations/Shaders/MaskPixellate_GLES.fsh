@@ -27,10 +27,11 @@ uniform highp int blurredCoords[200];
 
 bool shouldBlur(in vec2 currentFrag)
 {
-    highp int xIndex  = int(floor(currentFrag.x / fractionalWidthOfPixel));
-    highp int yIndex = int(floor((u_Resolution.y - currentFrag.y) / fractionalWidthOfPixel));
-    highp int index = yIndex * int(X_COUNT) + xIndex; //There's no 'int min(int, int)' function
-    return blurredCoords[index] == 1;
+//    highp int xIndex  = int(floor(currentFrag.x / fractionalWidthOfPixel));
+//    highp int yIndex = int(floor((u_Resolution.y - currentFrag.y) / fractionalWidthOfPixel));
+//    highp int index = yIndex * int(X_COUNT) + xIndex; //There's no 'int min(int, int)' function
+//    return blurredCoords[index] == 1;
+    return 1 == 1;
 }
 void main ()
 {
