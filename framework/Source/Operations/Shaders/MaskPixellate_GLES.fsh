@@ -14,9 +14,6 @@ uniform highp int blurredCoords[200];
 
 void main()
 {
-    highp vec2 sampleDivisor = vec2(fractionalWidthOfPixel, fractionalWidthOfPixel / aspectRatio);
-    highp vec2 samplePos = textureCoordinate - mod(textureCoordinate, sampleDivisor) + 0.5 * sampleDivisor;
-    
     highp int xIndex  = int(floor(gl_FragCoord.x / fractionalWidthOfPixel));
     highp int yIndex = int(floor((u_Resolution.y - gl_FragCoord.y) / fractionalWidthOfPixel));
     highp int index = yIndex * int(X_COUNT) + xIndex;
@@ -27,6 +24,5 @@ void main()
         }else{
             gl_FragColor = texture2D(inputImageTexture, textureCoordinate);
         }
-    
 }
 

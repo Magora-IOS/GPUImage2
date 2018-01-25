@@ -1,5 +1,5 @@
 public class MaskPixellate: BasicOperation {
-    public var fractionalWidthOfAPixel:Float = 0.01 {
+    public var fractionalWidthOfAPixel:Float = 1.0 {
         didSet {
             let imageWidth = 1.0 / Float(self.renderFramebuffer?.size.width ?? 2048)
             uniformSettings["fractionalWidthOfPixel"] = max(fractionalWidthOfAPixel, imageWidth)
@@ -27,7 +27,7 @@ public class MaskPixellate: BasicOperation {
             ({blurredCoords = pixelMask})()
         }
         
-        ({u_Resolution = Size(width:100, height:100)})()
-        ({fractionalWidthOfAPixel = 0.01})()
+        ({u_Resolution = resolution})()
+        ({fractionalWidthOfAPixel = 1.0})()
     }
 }

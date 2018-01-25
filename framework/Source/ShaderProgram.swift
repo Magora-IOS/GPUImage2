@@ -121,6 +121,7 @@ public class ShaderProgram {
         }
         if let previousValue = currentUniformFloatIntValues[forUniform], previousValue == value{
         } else {
+            glUniform1iv(GLint(uniformAddress), GLsizei(value.count) ,value)
             currentUniformFloatIntValues[forUniform] = value
         }
     }
