@@ -30,4 +30,15 @@ public class MaskPixellate: BasicOperation {
         ({u_Resolution = resolution})()
         ({fractionalWidthOfAPixel = resolution.width / 10.0})()
     }
+    
+    public func changeMask(pixelMask:[Int]) {
+        if pixelMask.count != 200 {
+            let array = Array(repeating: 1, count: 200)
+            ({blurredCoords = array})()
+        } else {
+            ({blurredCoords = pixelMask})()
+        }
+        
+        ({fractionalWidthOfAPixel = u_Resolution.width / 10.0})()
+    }
 }
