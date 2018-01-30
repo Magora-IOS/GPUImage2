@@ -1,24 +1,35 @@
 public enum ImageOrientation {
     case portrait
+    case portraitInverted
     case portraitUpsideDown
     case landscapeLeft
     case landscapeRight
     
     func rotationNeededForOrientation(_ targetOrientation:ImageOrientation) -> Rotation {
         switch (self, targetOrientation) {
-            case (.portrait, .portrait), (.portraitUpsideDown, .portraitUpsideDown), (.landscapeLeft, .landscapeLeft), (.landscapeRight, .landscapeRight): return .noRotation
-            case (.portrait, .portraitUpsideDown): return .rotate180
-            case (.portraitUpsideDown, .portrait): return .rotate180
-            case (.portrait, .landscapeLeft): return .rotateCounterclockwise
-            case (.landscapeLeft, .portrait): return .rotateClockwise
-            case (.portrait, .landscapeRight): return .rotateClockwise
-            case (.landscapeRight, .portrait): return .rotateCounterclockwise
-            case (.landscapeLeft, .landscapeRight): return .rotate180
-            case (.landscapeRight, .landscapeLeft): return .rotate180
-            case (.portraitUpsideDown, .landscapeLeft): return .rotateClockwise
-            case (.landscapeLeft, .portraitUpsideDown): return .rotateCounterclockwise
-            case (.portraitUpsideDown, .landscapeRight): return .rotateCounterclockwise
-            case (.landscapeRight, .portraitUpsideDown): return .rotateClockwise
+        case (.portraitUpsideDown, .portraitUpsideDown), (.landscapeLeft, .landscapeLeft), (.landscapeRight, .landscapeRight): return .noRotation
+        case (.portrait, .portrait): return .rotateClockwise
+        case (.portrait, .portraitUpsideDown): return .rotate180
+        case (.portraitUpsideDown, .portrait): return .rotate180
+        case (.portrait, .landscapeLeft): return .rotateCounterclockwise
+        case (.landscapeLeft, .portrait): return .rotateClockwise
+        case (.portrait, .landscapeRight): return .rotateClockwise
+        case (.landscapeRight, .portrait): return .rotateCounterclockwise
+        case (.landscapeLeft, .landscapeRight): return .rotate180
+        case (.landscapeRight, .landscapeLeft): return .rotate180
+        case (.portraitUpsideDown, .landscapeLeft): return .rotateClockwise
+        case (.landscapeLeft, .portraitUpsideDown): return .rotateCounterclockwise
+        case (.portraitUpsideDown, .landscapeRight): return .rotateCounterclockwise
+        case (.landscapeRight, .portraitUpsideDown): return .rotateClockwise
+        case (.portrait, .portraitInverted): return .rotateClockwiseAndFlipHorizontally
+        case (.portraitInverted, .portrait): return .rotateClockwiseAndFlipHorizontally
+        case (.portraitInverted, .portraitInverted): return .noRotation
+        case (.portraitInverted, .portraitUpsideDown): return .noRotation
+        case (.portraitInverted, .landscapeLeft): return .noRotation
+        case (.portraitInverted, .landscapeRight): return .noRotation
+        case (.landscapeRight, .portraitInverted): return .noRotation
+        case (.landscapeLeft, .portraitInverted): return .noRotation
+        case (.portraitUpsideDown, .portraitInverted): return .noRotation
         }
     }
 }

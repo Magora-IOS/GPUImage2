@@ -11,8 +11,8 @@ public enum PhysicalCameraLocation {
     // Documentation: "The front-facing camera would always deliver buffers in AVCaptureVideoOrientationLandscapeLeft and the back-facing camera would always deliver buffers in AVCaptureVideoOrientationLandscapeRight."
     func imageOrientation() -> ImageOrientation {
         switch self {
-            case .backFacing: return .landscapeRight
-            case .frontFacing: return .landscapeLeft
+        case .backFacing: return .portrait
+        case .frontFacing: return .portraitInverted
         }
     }
     
@@ -44,8 +44,35 @@ public class Camera: NSObject, ImageSource, AVCaptureVideoDataOutputSampleBuffer
     public var location:PhysicalCameraLocation {
         didSet {
             // TODO: Swap the camera locations, framebuffers as needed
+            let newCameraDevice:AVCaptureDevice!
+            if location == .backFacing {
+                newCameraDevice = getCamera(with: .back)
+            } else {
+                newCameraDevice = getCamera(with: .front)
+            }
+            self.captureSession.stopRunning()
+            self.captureSession.beginConfiguration()
+            self.captureSession.removeInput(videoInput)
+            let newVideoInput = try? AVCaptureDeviceInput(device: newCameraDevice)
+            videoInput = newVideoInput
+            if self.captureSession.canAddInput(videoInput) {
+                self.captureSession.addInput(videoInput)
+            }
+            self.captureSession.commitConfiguration()
+            self.captureSession.startRunning()
         }
     }
+    
+    func getCamera(with position: AVCaptureDevicePosition) -> AVCaptureDevice? {
+        guard let devices = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo) as? [AVCaptureDevice] else {
+            return nil
+        }
+        
+        return devices.filter {
+            $0.position == position
+            }.first
+    }
+    
     public var runBenchmark:Bool = false
     public var logFPS:Bool = false
     public var audioEncodingTarget:AudioEncodingTarget? {
@@ -67,7 +94,7 @@ public class Camera: NSObject, ImageSource, AVCaptureVideoDataOutputSampleBuffer
     public var delegate: CameraDelegate?
     public let captureSession:AVCaptureSession
     let inputCamera:AVCaptureDevice!
-    let videoInput:AVCaptureDeviceInput!
+    var videoInput:AVCaptureDeviceInput!
     let videoOutput:AVCaptureVideoDataOutput!
     var microphone:AVCaptureDevice?
     var audioInput:AVCaptureDeviceInput?
