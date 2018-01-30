@@ -15,14 +15,13 @@ uniform highp int blurredCoords[200];
 void main()
 {
     highp int xIndex  = int(floor(gl_FragCoord.x / fractionalWidthOfPixel));
-    highp int yIndex = int(floor((u_Resolution.y - gl_FragCoord.y) / fractionalWidthOfPixel));
+    highp int yIndex = int(floor(gl_FragCoord.y / fractionalWidthOfPixel));
     highp int index = yIndex * int(X_COUNT) + xIndex;
     
        if (blurredCoords[index] == 1) {
-            highp vec2 p = textureCoordinate.xy * u_Resolution.yx;
-            gl_FragColor = texture2D(inputImageTexture, floor((p + 0.5) / S) * S / u_Resolution.yx);
+            highp vec2 p = textureCoordinate.xy * u_Resolution.xy;
+            gl_FragColor = texture2D(inputImageTexture, floor((p + 0.5) / S) * S / u_Resolution.xy);
         }else{
             gl_FragColor = texture2D(inputImageTexture, textureCoordinate);
         }
 }
-
