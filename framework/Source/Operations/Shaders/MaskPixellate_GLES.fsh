@@ -1,7 +1,7 @@
 varying highp vec2 textureCoordinate;
 
 uniform sampler2D inputImageTexture;
-
+uniform highp vec2 frameBufferResolution;
 uniform highp float fractionalWidthOfPixel;
 uniform highp float aspectRatio;
 uniform highp vec2 u_Resolution;
@@ -14,8 +14,8 @@ uniform highp int blurredCoords[200];
 
 void main()
 {
-    highp int xIndex  = int(floor(gl_FragCoord.x / fractionalWidthOfPixel));
-    highp int yIndex = int(floor(gl_FragCoord.y / fractionalWidthOfPixel));
+    highp int xIndex  = int(floor(gl_FragCoord.x / (frameBufferResolution / 10.0)));
+    highp int yIndex = int(floor(gl_FragCoord.y / (frameBufferResolution / 10.0)));
     highp int index = yIndex * int(X_COUNT) + xIndex;
     
        if (blurredCoords[index] == 1) {
