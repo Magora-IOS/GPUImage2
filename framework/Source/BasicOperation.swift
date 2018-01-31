@@ -179,8 +179,8 @@ open class BasicOperation: ImageProcessingOperation {
         if usesAspectRatio {
             let outputRotation = overriddenOutputRotation ?? inputFramebuffer.orientation.rotationNeededForOrientation(.portrait)
             uniformSettings["aspectRatio"] = inputFramebuffer.aspectRatioForRotation(outputRotation)
-            uniformSettings["frameBufferResolution"] = Size(width: Float(inputFramebuffer.size.width), height:Float(inputFramebuffer.size.height))
         }
+        uniformSettings["frameBufferResolution"] = Size(width: Float(inputFramebuffer.size.width), height:Float(inputFramebuffer.size.height))
     }
     
     public func transmitPreviousImage(to target:ImageConsumer, atIndex:UInt) {
