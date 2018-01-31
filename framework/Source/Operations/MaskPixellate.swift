@@ -7,9 +7,9 @@ public class MaskPixellate: BasicOperation {
     }
     
     public var u_Resolution:Size = Size(width:100, height:100) {
-        didSet {
-             uniformSettings["u_Resolution"] = u_Resolution
-        }
+//        didSet {
+//             uniformSettings["u_Resolution"] = u_Resolution
+//        }
     }
     
     public var blurredCoords: [Int] = [] {

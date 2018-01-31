@@ -2,8 +2,6 @@ varying highp vec2 textureCoordinate;
 uniform sampler2D inputImageTexture;
 uniform highp vec2 frameBufferResolution;
 uniform highp float fractionalWidthOfPixel;
-uniform highp float aspectRatio;
-uniform highp vec2 u_Resolution;
 uniform highp int blurredCoords[200];
 #define X_COUNT 10
 #define Y_COUNT 20
