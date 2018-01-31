@@ -50,7 +50,6 @@ public class Camera: NSObject, ImageSource, AVCaptureVideoDataOutputSampleBuffer
             } else {
                 newCameraDevice = getCamera(with: .front)
             }
-            self.captureSession.stopRunning()
             self.captureSession.beginConfiguration()
             self.captureSession.removeInput(videoInput)
             let newVideoInput = try? AVCaptureDeviceInput(device: newCameraDevice)
@@ -59,7 +58,6 @@ public class Camera: NSObject, ImageSource, AVCaptureVideoDataOutputSampleBuffer
                 self.captureSession.addInput(videoInput)
             }
             self.captureSession.commitConfiguration()
-            self.captureSession.startRunning()
         }
     }
     
