@@ -4,8 +4,8 @@ uniform highp vec2 frameBufferResolution;
 uniform highp int blurredCoords[200];
 #define X_COUNT 10
 #define Y_COUNT 20
-#define X_COORD gl_FragCoord.y
-#define Y_COORD (frameBufferResolution.y - gl_FragCoord.x)
+#define X_COORD gl_FragCoord.x
+#define Y_COORD gl_FragCoord.y
 #define S (frameBufferResolution.x / 20.0) // The cell size.
 void main()
 {
@@ -19,4 +19,3 @@ void main()
         gl_FragColor = texture2D(inputImageTexture, textureCoordinate);
         }
 }
-

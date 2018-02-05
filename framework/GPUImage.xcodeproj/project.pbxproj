@@ -692,6 +692,7 @@
 		CE1A49072017555E004C9BF4 /* MaskPixellate_GLES.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = MaskPixellate_GLES.fsh; path = Source/Operations/Shaders/MaskPixellate_GLES.fsh; sourceTree = "<group>"; };
 		CE1A49082017555E004C9BF4 /* MaskPixellate_GL.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = MaskPixellate_GL.fsh; path = Source/Operations/Shaders/MaskPixellate_GL.fsh; sourceTree = "<group>"; };
 		CE1A490D20175740004C9BF4 /* MaskPixellate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MaskPixellate.swift; path = Source/Operations/MaskPixellate.swift; sourceTree = "<group>"; };
+		CE35437520244934003076EA /* MaskPixellateWatch_GLES.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = MaskPixellateWatch_GLES.fsh; path = Source/Operations/Shaders/MaskPixellateWatch_GLES.fsh; sourceTree = "<group>"; };
 		CE5CB41220079BFA0089E54D /* StreamInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StreamInput.swift; path = Source/iOS/StreamInput.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1183,6 +1184,7 @@
 				BCB279E71C8D0BA30013E213 /* BasicOperation.swift */,
 				CE1A49082017555E004C9BF4 /* MaskPixellate_GL.fsh */,
 				CE1A49072017555E004C9BF4 /* MaskPixellate_GLES.fsh */,
+				CE35437520244934003076EA /* MaskPixellateWatch_GLES.fsh */,
 				BC91EDCE1C91E92000C704A8 /* OneInput.vsh */,
 				BC1E12F51C9F2FD7008F844F /* TwoInput.vsh */,
 				BC1E12F41C9F2FD7008F844F /* ThreeInput.vsh */,
