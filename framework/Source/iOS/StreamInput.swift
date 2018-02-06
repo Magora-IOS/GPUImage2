@@ -40,6 +40,7 @@ public class StreamInput: ImageSource {
     public func start() {
         
         gplayerItem = AVPlayerItem(url: videoURL)
+        
         gavPlayer.replaceCurrentItem(with: gplayerItem)
         if self.gavPlayer.status == .readyToPlay {
             self.gavPlayer.seek(to: CMTimeMakeWithSeconds(0, 100)) { [unowned self] (completed: Bool) -> Void in
@@ -62,7 +63,7 @@ public class StreamInput: ImageSource {
                 while (true) {
                     self.readNextVideoFrame()
                 }
-
+                
                 break
             // Sucessfully loaded, continue processing
             default:
@@ -100,7 +101,7 @@ public class StreamInput: ImageSource {
                     let actualTimeDifference = currentActualTime - previousActualFrameTime
                     
                     if (frameTimeDifference > actualTimeDifference) {
-                        usleep(UInt32(round(1000000.0 * (frameTimeDifference - actualTimeDifference))))
+                        //  usleep(UInt32(round(1000000.0 * (frameTimeDifference - actualTimeDifference))))
                     }
                     
                     previousFrameTime = currentSampleTime
@@ -141,17 +142,67 @@ public class StreamInput: ImageSource {
         
         let startTime = CFAbsoluteTimeGetCurrent()
         
-        let luminanceFramebuffer = sharedImageProcessingContext.framebufferCache.requestFramebufferWithProperties(orientation:.portrait, size:GLSize(width:GLint(bufferWidth), height:GLint(bufferHeight)), textureOnly:true)
-        luminanceFramebuffer.lock()
-        glActiveTexture(GLenum(GL_TEXTURE0))
-        glBindTexture(GLenum(GL_TEXTURE_2D), luminanceFramebuffer.texture)
-        glTexImage2D(GLenum(GL_TEXTURE_2D), 0, GL_LUMINANCE, GLsizei(bufferWidth), GLsizei(bufferHeight), 0, GLenum(GL_LUMINANCE), GLenum(GL_UNSIGNED_BYTE), CVPixelBufferGetBaseAddressOfPlane(movieFrame, 0))
+        //        let luminanceFramebuffer = sharedImageProcessingContext.framebufferCache.requestFramebufferWithProperties(orientation:.portrait, size:GLSize(width:GLint(bufferWidth), height:GLint(bufferHeight)), textureOnly:true)
+        //        luminanceFramebuffer.lock()
+        //        glActiveTexture(GLenum(GL_TEXTURE0))
+        //        glBindTexture(GLenum(GL_TEXTURE_2D), luminanceFramebuffer.texture)
+        //        glTexImage2D(GLenum(GL_TEXTURE_2D), 0, GL_LUMINANCE, GLsizei(bufferWidth), GLsizei(bufferHeight), 0, GLenum(GL_LUMINANCE), GLenum(GL_UNSIGNED_BYTE), CVPixelBufferGetBaseAddressOfPlane(movieFrame, 0))
+        //
+        //        let chrominanceFramebuffer = sharedImageProcessingContext.framebufferCache.requestFramebufferWithProperties(orientation:.portrait, size:GLSize(width:GLint(bufferWidth), height:GLint(bufferHeight)), textureOnly:true)
+        //        chrominanceFramebuffer.lock()
+        //        glActiveTexture(GLenum(GL_TEXTURE1))
+        //        glBindTexture(GLenum(GL_TEXTURE_2D), chrominanceFramebuffer.texture)
+        //        glTexImage2D(GLenum(GL_TEXTURE_2D), 0, GL_LUMINANCE_ALPHA, GLsizei(bufferWidth / 3), GLsizei(bufferHeight / 3), 0, GLenum(GL_LUMINANCE_ALPHA), GLenum(GL_UNSIGNED_BYTE), CVPixelBufferGetBaseAddressOfPlane(movieFrame, 1))
         
-        let chrominanceFramebuffer = sharedImageProcessingContext.framebufferCache.requestFramebufferWithProperties(orientation:.portrait, size:GLSize(width:GLint(bufferWidth), height:GLint(bufferHeight)), textureOnly:true)
-        chrominanceFramebuffer.lock()
+        var luminanceGLTexture: CVOpenGLESTexture?
+        
+        glActiveTexture(GLenum(GL_TEXTURE0))
+        
+        let luminanceGLTextureResult = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, sharedImageProcessingContext.coreVideoTextureCache, movieFrame, nil, GLenum(GL_TEXTURE_2D), GL_LUMINANCE, GLsizei(bufferWidth), GLsizei(bufferHeight), GLenum(GL_LUMINANCE), GLenum(GL_UNSIGNED_BYTE), 0, &luminanceGLTexture)
+        
+        assert(luminanceGLTextureResult == kCVReturnSuccess && luminanceGLTexture != nil)
+        
+        let luminanceTexture = CVOpenGLESTextureGetName(luminanceGLTexture!)
+        
+        glBindTexture(GLenum(GL_TEXTURE_2D), luminanceTexture)
+        glTexParameterf(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_WRAP_S), GLfloat(GL_CLAMP_TO_EDGE));
+        glTexParameterf(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_WRAP_T), GLfloat(GL_CLAMP_TO_EDGE));
+        
+        let luminanceFramebuffer: Framebuffer
+        do {
+            luminanceFramebuffer = try Framebuffer(context: sharedImageProcessingContext, orientation: .portrait, size: GLSize(width:GLint(bufferWidth), height:GLint(bufferHeight)), textureOnly: true, overriddenTexture: luminanceTexture)
+        } catch {
+            fatalError("Could not create a framebuffer of the size (\(bufferWidth), \(bufferHeight)), error: \(error)")
+        }
+        
+        luminanceFramebuffer.cache = sharedImageProcessingContext.framebufferCache
+        luminanceFramebuffer.lock()
+        
+        
+        var chrominanceGLTexture: CVOpenGLESTexture?
+        
         glActiveTexture(GLenum(GL_TEXTURE1))
-        glBindTexture(GLenum(GL_TEXTURE_2D), chrominanceFramebuffer.texture)
-        glTexImage2D(GLenum(GL_TEXTURE_2D), 0, GL_LUMINANCE_ALPHA, GLsizei(bufferWidth / 2), GLsizei(bufferHeight / 2), 0, GLenum(GL_LUMINANCE_ALPHA), GLenum(GL_UNSIGNED_BYTE), CVPixelBufferGetBaseAddressOfPlane(movieFrame, 1))
+        
+        let chrominanceGLTextureResult = CVOpenGLESTextureCacheCreateTextureFromImage(kCFAllocatorDefault, sharedImageProcessingContext.coreVideoTextureCache, movieFrame, nil, GLenum(GL_TEXTURE_2D), GL_LUMINANCE_ALPHA, GLsizei(bufferWidth / 2), GLsizei(bufferHeight / 2), GLenum(GL_LUMINANCE_ALPHA), GLenum(GL_UNSIGNED_BYTE), 1, &chrominanceGLTexture)
+        
+        assert(chrominanceGLTextureResult == kCVReturnSuccess && chrominanceGLTexture != nil)
+        
+        let chrominanceTexture = CVOpenGLESTextureGetName(chrominanceGLTexture!)
+        
+        glBindTexture(GLenum(GL_TEXTURE_2D), chrominanceTexture)
+        glTexParameterf(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_WRAP_S), GLfloat(GL_CLAMP_TO_EDGE));
+        glTexParameterf(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_WRAP_T), GLfloat(GL_CLAMP_TO_EDGE));
+        
+        let chrominanceFramebuffer: Framebuffer
+        do {
+            chrominanceFramebuffer = try Framebuffer(context: sharedImageProcessingContext, orientation: .portrait, size: GLSize(width:GLint(bufferWidth), height:GLint(bufferHeight)), textureOnly: true, overriddenTexture: chrominanceTexture)
+        } catch {
+            fatalError("Could not create a framebuffer of the size (\(bufferWidth), \(bufferHeight)), error: \(error)")
+        }
+        
+        chrominanceFramebuffer.cache = sharedImageProcessingContext.framebufferCache
+        chrominanceFramebuffer.lock()
+        /////
         
         let movieFramebuffer = sharedImageProcessingContext.framebufferCache.requestFramebufferWithProperties(orientation:.portrait, size:GLSize(width:GLint(bufferWidth), height:GLint(bufferHeight)), textureOnly:false)
         
@@ -174,3 +225,4 @@ public class StreamInput: ImageSource {
         // Not needed for movie inputs
     }
 }
+
