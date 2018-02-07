@@ -14,6 +14,7 @@ public class StreamInput: ImageSource {
     
     var numberOfFramesCaptured = 0
     var totalFrameTimeDuringCapture:Double = 0.0
+    var isPlaying = false
     
     public init(asset:AVAsset, playAtActualSpeed:Bool = false, loop:Bool = false) throws {
         self.asset = asset
@@ -38,7 +39,7 @@ public class StreamInput: ImageSource {
     var videoURL:URL!
     
     public func start() {
-        
+        isPlaying = true
         gplayerItem = AVPlayerItem(url: videoURL)
         
         gavPlayer.replaceCurrentItem(with: gplayerItem)
@@ -60,7 +61,7 @@ public class StreamInput: ImageSource {
                 let output:AVPlayerItemVideoOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: settings)
                 self.gplayerItem.add(output)
                 self.goutput = output
-                while (true) {
+                while (self.isPlaying) {
                     self.readNextVideoFrame()
                 }
                 
@@ -74,12 +75,12 @@ public class StreamInput: ImageSource {
     }
     
     public func cancel() {
-        //assetReader.cancelReading()
         self.endProcessing()
     }
     
     func endProcessing() {
-        
+        self.gavPlayer.pause()
+        self.isPlaying = false
     }
     
     // MARK: -
@@ -225,4 +226,3 @@ public class StreamInput: ImageSource {
         // Not needed for movie inputs
     }
 }
-

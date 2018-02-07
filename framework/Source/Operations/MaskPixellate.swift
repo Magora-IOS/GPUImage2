@@ -1,8 +1,8 @@
 public class MaskPixellate: BasicOperation {
     public var fractionalWidthOfAPixel:Float = 1.0 {
         didSet {
-            let imageWidth = 1.0 / Float(self.renderFramebuffer?.size.width ?? 2048)
-            uniformSettings["fractionalWidthOfPixel"] = max(fractionalWidthOfAPixel, imageWidth)
+           // let imageWidth = 1.0 / Float(self.renderFramebuffer?.size.width ?? 2048)
+           // uniformSettings["fractionalWidthOfPixel"] = max(fractionalWidthOfAPixel, imageWidth)
         }
     }
     
@@ -42,8 +42,8 @@ public class MaskPixellate: BasicOperation {
 public class MaskPixellateWatch: BasicOperation {
     public var fractionalWidthOfAPixel:Float = 1.0 {
         didSet {
-            let imageWidth = 1.0 / Float(self.renderFramebuffer?.size.width ?? 2048)
-            uniformSettings["fractionalWidthOfPixel"] = max(fractionalWidthOfAPixel, imageWidth)
+           // let imageWidth = 1.0 / Float(self.renderFramebuffer?.size.width ?? 2048)
+           // uniformSettings["fractionalWidthOfPixel"] = max(fractionalWidthOfAPixel, imageWidth)
         }
     }
     

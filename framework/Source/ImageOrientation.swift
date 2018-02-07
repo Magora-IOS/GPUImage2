@@ -24,12 +24,12 @@ public enum ImageOrientation {
         case (.portrait, .portraitInverted): return .rotateClockwiseAndFlipHorizontally
         case (.portraitInverted, .portrait): return .rotateClockwiseAndFlipHorizontally
         case (.portraitInverted, .portraitInverted): return .noRotation
-        case (.portraitInverted, .portraitUpsideDown): return .noRotation
-        case (.portraitInverted, .landscapeLeft): return .noRotation
-        case (.portraitInverted, .landscapeRight): return .noRotation
-        case (.landscapeRight, .portraitInverted): return .noRotation
-        case (.landscapeLeft, .portraitInverted): return .noRotation
-        case (.portraitUpsideDown, .portraitInverted): return .noRotation
+        case (.portraitInverted, .portraitUpsideDown): return .flipVertically
+        case (.portraitInverted, .landscapeLeft): return .rotateClockwiseAndFlipHorizontally
+        case (.portraitInverted, .landscapeRight): return .rotateClockwiseAndFlipVertically
+        case (.landscapeRight, .portraitInverted): return .rotateClockwiseAndFlipHorizontally
+        case (.landscapeLeft, .portraitInverted): return .rotateClockwiseAndFlipVertically
+        case (.portraitUpsideDown, .portraitInverted): return .flipVertically
         }
     }
 }
@@ -46,8 +46,9 @@ public enum Rotation {
     
     func flipsDimensions() -> Bool {
         switch self {
-            case .noRotation, .rotate180, .flipHorizontally, .flipVertically: return false
-            case .rotateCounterclockwise, .rotateClockwise, .rotateClockwiseAndFlipVertically, .rotateClockwiseAndFlipHorizontally: return true
+        case .noRotation, .rotate180, .flipHorizontally, .flipVertically: return false
+        case .rotateCounterclockwise, .rotateClockwise, .rotateClockwiseAndFlipVertically, .rotateClockwiseAndFlipHorizontally: return true
         }
     }
 }
+
