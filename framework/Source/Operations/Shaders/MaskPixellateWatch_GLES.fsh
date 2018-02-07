@@ -1,3 +1,4 @@
+varying highp vec2 textureCoordinate;
 uniform highp vec2 frameBufferResolution;
 uniform sampler2D inputImageTexture;
 uniform highp int blurredCoords[200];
