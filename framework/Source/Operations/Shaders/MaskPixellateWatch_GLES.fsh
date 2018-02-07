@@ -18,4 +18,3 @@ void main()
         gl_FragColor = texture2D(inputImageTexture, vec2(1.0 - textureCoordinate.y , textureCoordinate.x));
     }
 }
-"
