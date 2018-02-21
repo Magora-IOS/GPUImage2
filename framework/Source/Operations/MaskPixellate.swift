@@ -63,7 +63,6 @@ public class MaskPixellateWatch: BasicOperation {
         } else {
             ({blurredCoords = pixelMask})()
         }
-        self.overriddenOutputSize = Size(width: 1280,height:720)
         ({u_Resolution = resolution})()
         ({fractionalWidthOfAPixel = resolution.width / 10.0})()
     }

@@ -155,6 +155,11 @@ open class BasicOperation: ImageProcessingOperation {
         if let outputSize = overriddenOutputSize {
             return GLSize(outputSize)
         } else {
+            if inputFramebuffer.size.height > inputFramebuffer.size.width {
+                return  GLSize(width: inputFramebuffer.size.height, height: inputFramebuffer.size.width)
+            } else {
+                return  GLSize(width: inputFramebuffer.size.width, height: inputFramebuffer.size.height)
+            }
             return inputFramebuffer.sizeForTargetOrientation(.portrait)
         }
     }
