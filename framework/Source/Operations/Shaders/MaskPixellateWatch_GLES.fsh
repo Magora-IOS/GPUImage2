@@ -10,6 +10,7 @@ uniform highp int portrait;
 #define S (frameBufferResolution.x / 20.0) // The cell size.
 void main()
 {
+    //vertical
     if ( frameBufferResolution.y > frameBufferResolution.x ) {
         highp int xIndex  = int(floor(X_COORD / (frameBufferResolution.x / 10.0)));
         highp int yIndex = int(floor(Y_COORD / (frameBufferResolution.x / 10.0)));
@@ -21,15 +22,15 @@ void main()
             gl_FragColor = texture2D(inputImageTexture, vec2(1.0 - textureCoordinate.y , textureCoordinate.x));
         }
     } else {
+    //horizontal
         highp int xIndex = int(floor(gl_FragCoord.y / (frameBufferResolution.y / 10.0)));
         highp int yIndex = int(floor((frameBufferResolution.x - gl_FragCoord.x) / (frameBufferResolution.y / 10.0)));
         highp int index = yIndex * int(X_COUNT) + xIndex;
         if (blurredCoords[index] == 1) {
             highp vec2 p = textureCoordinate.xy * frameBufferResolution.xy;
-            gl_FragColor = texture2D(inputImageTexture, floor((p + 0.5) / (frameBufferResolution.y / 20.0)) * (frameBufferResolution.y / 20.0) / frameBufferResolution.xy);
+            gl_FragColor = texture2D(inputImageTexture, vec2(floor((p.x + 0.5) / (frameBufferResolution.y / 10.0)) * (frameBufferResolution.y / 10.0) / frameBufferResolution.x, floor((p.y + 0.5) / (frameBufferResolution.y / 40.0)) * (frameBufferResolution.y / 40.0) / frameBufferResolution.y ));
         } else {
             gl_FragColor = texture2D(inputImageTexture, textureCoordinate);
         }
     }
 }
-
