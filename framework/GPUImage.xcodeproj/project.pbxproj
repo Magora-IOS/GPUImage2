@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5254D30720EF150E006F6AC6 /* SpeakerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5254D30620EF150E006F6AC6 /* SpeakerOutput.swift */; };
+		5254DC6D20EF418D006F6AC6 /* NSObject+Exception.h in Headers */ = {isa = PBXBuildFile; fileRef = 5254DC6820EF418C006F6AC6 /* NSObject+Exception.h */; };
+		5254DC6E20EF418D006F6AC6 /* NSObject+Exception.h in Headers */ = {isa = PBXBuildFile; fileRef = 5254DC6820EF418C006F6AC6 /* NSObject+Exception.h */; };
+		5254DC6F20EF418D006F6AC6 /* Objective-CBridgingHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 5254DC6920EF418C006F6AC6 /* Objective-CBridgingHeader.h */; };
+		5254DC7020EF418D006F6AC6 /* Objective-CBridgingHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 5254DC6920EF418C006F6AC6 /* Objective-CBridgingHeader.h */; };
+		5254DC7120EF418D006F6AC6 /* NSObject+Exception.m in Sources */ = {isa = PBXBuildFile; fileRef = 5254DC6A20EF418C006F6AC6 /* NSObject+Exception.m */; };
+		5254DC7220EF418D006F6AC6 /* NSObject+Exception.m in Sources */ = {isa = PBXBuildFile; fileRef = 5254DC6A20EF418C006F6AC6 /* NSObject+Exception.m */; };
+		5254DC7320EF418D006F6AC6 /* TPCircularBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5254DC6B20EF418C006F6AC6 /* TPCircularBuffer.h */; };
+		5254DC7420EF418D006F6AC6 /* TPCircularBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5254DC6B20EF418C006F6AC6 /* TPCircularBuffer.h */; };
+		5254DC7520EF418D006F6AC6 /* TPCircularBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5254DC6C20EF418D006F6AC6 /* TPCircularBuffer.m */; };
+		5254DC7620EF418D006F6AC6 /* TPCircularBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5254DC6C20EF418D006F6AC6 /* TPCircularBuffer.m */; };
 		BC09239E1C92658200A2ADFA /* ShaderProgram_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC09239D1C92658200A2ADFA /* ShaderProgram_Tests.swift */; };
 		BC0923A11C92661D00A2ADFA /* Pipeline_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC09239F1C9265A600A2ADFA /* Pipeline_Tests.swift */; };
 		BC0923A21C92664900A2ADFA /* Framebuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB279EB1C8D11630013E213 /* Framebuffer.swift */; };
@@ -373,6 +384,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5254D30620EF150E006F6AC6 /* SpeakerOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpeakerOutput.swift; path = Source/iOS/SpeakerOutput.swift; sourceTree = "<group>"; };
+		5254DC6820EF418C006F6AC6 /* NSObject+Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Exception.h"; path = "Source/NSObject+Exception.h"; sourceTree = "<group>"; };
+		5254DC6920EF418C006F6AC6 /* Objective-CBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Objective-CBridgingHeader.h"; path = "Source/Objective-CBridgingHeader.h"; sourceTree = "<group>"; };
+		5254DC6A20EF418C006F6AC6 /* NSObject+Exception.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Exception.m"; path = "Source/NSObject+Exception.m"; sourceTree = "<group>"; };
+		5254DC6B20EF418C006F6AC6 /* TPCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPCircularBuffer.h; path = Source/TPCircularBuffer.h; sourceTree = "<group>"; };
+		5254DC6C20EF418D006F6AC6 /* TPCircularBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPCircularBuffer.m; path = Source/TPCircularBuffer.m; sourceTree = "<group>"; };
 		BC09239D1C92658200A2ADFA /* ShaderProgram_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShaderProgram_Tests.swift; path = Tests/ShaderProgram_Tests.swift; sourceTree = SOURCE_ROOT; };
 		BC09239F1C9265A600A2ADFA /* Pipeline_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Pipeline_Tests.swift; path = Tests/Pipeline_Tests.swift; sourceTree = SOURCE_ROOT; };
 		BC1E12F41C9F2FD7008F844F /* ThreeInput.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = ThreeInput.vsh; path = Source/Operations/Shaders/ThreeInput.vsh; sourceTree = "<group>"; };
@@ -969,6 +986,11 @@
 		BC6E7CAD1C39A9D8006DF678 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				5254DC6820EF418C006F6AC6 /* NSObject+Exception.h */,
+				5254DC6A20EF418C006F6AC6 /* NSObject+Exception.m */,
+				5254DC6920EF418C006F6AC6 /* Objective-CBridgingHeader.h */,
+				5254DC6B20EF418C006F6AC6 /* TPCircularBuffer.h */,
+				5254DC6C20EF418D006F6AC6 /* TPCircularBuffer.m */,
 				BC4C85ED1C9F042900FD95D8 /* ConvertedShaders_GL.swift */,
 				BC9E35531E52521F00B8604F /* ConvertedShaders_GLES.swift */,
 			);
@@ -1132,6 +1154,7 @@
 		BC9E35201E524D2A00B8604F /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				5254D30620EF150E006F6AC6 /* SpeakerOutput.swift */,
 				BC9E35231E524D4D00B8604F /* RenderView.swift */,
 				BC9E35221E524D4D00B8604F /* PictureOutput.swift */,
 				BC9E35211E524D4D00B8604F /* MovieOutput.swift */,
@@ -1211,6 +1234,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5254DC6D20EF418D006F6AC6 /* NSObject+Exception.h in Headers */,
+				5254DC7320EF418D006F6AC6 /* TPCircularBuffer.h in Headers */,
+				5254DC6F20EF418D006F6AC6 /* Objective-CBridgingHeader.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1218,6 +1244,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5254DC6E20EF418D006F6AC6 /* NSObject+Exception.h in Headers */,
+				5254DC7420EF418D006F6AC6 /* TPCircularBuffer.h in Headers */,
+				5254DC7020EF418D006F6AC6 /* Objective-CBridgingHeader.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1308,13 +1337,14 @@
 				TargetAttributes = {
 					BC6E7CAA1C39A9D8006DF678 = {
 						CreatedOnToolsVersion = 7.2;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0930;
 					};
 					BC6E7CB41C39A9D8006DF678 = {
 						CreatedOnToolsVersion = 7.2;
 					};
 					BC9E34E81E524A2200B8604F = {
 						CreatedOnToolsVersion = 8.2.1;
+						LastSwiftMigration = 0930;
 						ProvisioningStyle = Automatic;
 					};
 					BC9E34F01E524A2200B8604F = {
@@ -1442,6 +1472,7 @@
 				BC4EE1621CB348CB00AD8A65 /* ThresholdSketch.swift in Sources */,
 				BC7FD09E1CA6301B00037949 /* GammaAdjustment.swift in Sources */,
 				BCE111A91CBC9960005293A4 /* AverageLuminanceThreshold.swift in Sources */,
+				5254DC7520EF418D006F6AC6 /* TPCircularBuffer.m in Sources */,
 				BCFF46C41CB9565F00A0C521 /* MotionBlur.swift in Sources */,
 				BC7FD0FB1CB0663C00037949 /* ShaderUniformSettings.swift in Sources */,
 				BC7FD13E1CB0B36600037949 /* OpacityAdjustment.swift in Sources */,
@@ -1459,6 +1490,7 @@
 				BC7FD1611CB0CDDF00037949 /* SepiaToneFilter.swift in Sources */,
 				BCFF46C01CB9556B00A0C521 /* WhiteBalance.swift in Sources */,
 				BC7FD14E1CB0BD3900037949 /* ZoomBlur.swift in Sources */,
+				5254DC7120EF418D006F6AC6 /* NSObject+Exception.m in Sources */,
 				BCFB07921CBF37A1009B2333 /* TextureInput.swift in Sources */,
 				BC6E7CC71C39AD9E006DF678 /* ShaderProgram.swift in Sources */,
 				BCFF46CA1CB96BD700A0C521 /* HighPassFilter.swift in Sources */,
@@ -1584,6 +1616,7 @@
 				BC9E35591E5252C200B8604F /* RawDataOutput.swift in Sources */,
 				BC9E35B01E52579B00B8604F /* PinchDistortion.swift in Sources */,
 				BC9E35CD1E5257F900B8604F /* MultiplyBlend.swift in Sources */,
+				5254DC7620EF418D006F6AC6 /* TPCircularBuffer.m in Sources */,
 				BC9E35C21E5257D600B8604F /* ColorBurnBlend.swift in Sources */,
 				BC9E355B1E5252CC00B8604F /* BasicOperation.swift in Sources */,
 				BC9E35931E52574100B8604F /* UnsharpMask.swift in Sources */,
@@ -1614,6 +1647,7 @@
 				BC9E359F1E52576500B8604F /* TransformOperation.swift in Sources */,
 				BC9E35951E52574700B8604F /* Crop.swift in Sources */,
 				BC9E35321E524D7600B8604F /* SerialDispatch.swift in Sources */,
+				5254DC7220EF418D006F6AC6 /* NSObject+Exception.m in Sources */,
 				BC9E35651E5256B500B8604F /* ExposureAdjustment.swift in Sources */,
 				BC9E35821E52570D00B8604F /* Laplacian.swift in Sources */,
 				BC9E35B91E5257B900B8604F /* TiltShift.swift in Sources */,
@@ -1652,6 +1686,7 @@
 				BC9E356E1E5256CE00B8604F /* FalseColor.swift in Sources */,
 				BC9E35881E52572000B8604F /* ThresholdSobelEdgeDetection.swift in Sources */,
 				BC9E356F1E5256D000B8604F /* HighlightsAndShadows.swift in Sources */,
+				5254D30720EF150E006F6AC6 /* SpeakerOutput.swift in Sources */,
 				BC9E35AA1E52578900B8604F /* Halftone.swift in Sources */,
 				BC9E35961E52574A00B8604F /* ImageBuffer.swift in Sources */,
 				BC9E35831E52571100B8604F /* LocalBinaryPattern.swift in Sources */,
@@ -1806,6 +1841,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				USER_HEADER_SEARCH_PATHS = "/**";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1848,6 +1884,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
+				USER_HEADER_SEARCH_PATHS = "/**";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1926,6 +1963,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1946,6 +1984,8 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "$PROJECT_DIR/Source/Objective-CBridgingHeader.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1955,6 +1995,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1974,6 +2015,7 @@
 				PRODUCT_NAME = GPUImage;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$PROJECT_DIR/Source/Objective-CBridgingHeader.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
     s.homepage = 'https://github.com/BradLarson/GPUImage2'
     s.author   = { 'Brad Larson' => 'contact@sunsetlakesoftware.com' }
     s.source   = { :git => 'https://github.com/Magora-IOS/GPUImage2.git', :branch => "develop" }
-    s.source_files = 'framework/Source/**/*.{swift}'
+    s.source_files = 'framework/Source/**/*.{swift}', 'framework/Source/*.{h,m}'
     s.resources = 'framework/Source/Operations/Shaders/*.{fsh}'
     s.requires_arc = true
     s.xcconfig = { 'CLANG_MODULES_AUTOLINK' => 'YES',

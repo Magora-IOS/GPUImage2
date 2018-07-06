@@ -2,7 +2,9 @@ import AVFoundation
 
 public protocol AudioEncodingTarget {
     func activateAudioTrack()
-    func processAudioBuffer(_ sampleBuffer:CMSampleBuffer)
+    func processAudioBuffer(_ sampleBuffer:CMSampleBuffer, shouldInvalidateSampleWhenDone:Bool)
+    // Note: This is not used for synchronized encoding.
+    func readyForNextAudioBuffer() -> Bool
 }
 
 public class MovieOutput: ImageConsumer, AudioEncodingTarget {
@@ -187,8 +189,13 @@ public class MovieOutput: ImageConsumer, AudioEncodingTarget {
         assetWriterAudioInput?.expectsMediaDataInRealTime = encodingLiveVideo
     }
     
-    public func processAudioBuffer(_ sampleBuffer:CMSampleBuffer) {
+    public func processAudioBuffer(_ sampleBuffer:CMSampleBuffer, shouldInvalidateSampleWhenDone:Bool) {
         guard let assetWriterAudioInput = assetWriterAudioInput else { return }
+        defer {
+            if(shouldInvalidateSampleWhenDone) {
+                CMSampleBufferInvalidate(sampleBuffer)
+            }
+        }
         
         sharedImageProcessingContext.runOperationSynchronously{
             let currentSampleTime = CMSampleBufferGetOutputPresentationTimeStamp(sampleBuffer)
@@ -209,6 +216,11 @@ public class MovieOutput: ImageConsumer, AudioEncodingTarget {
                 print("Trouble appending audio sample buffer")
             }
         }
+    }
+    
+    // Note: This is not used for synchronized encoding, only live video.
+    public func readyForNextAudioBuffer() -> Bool {
+        return true
     }
 }
 
