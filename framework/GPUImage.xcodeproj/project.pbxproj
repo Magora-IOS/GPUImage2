@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52262CC721003BC200846D5C /* MovieStreamInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52262CC621003BC200846D5C /* MovieStreamInput.swift */; };
 		5254D30720EF150E006F6AC6 /* SpeakerOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5254D30620EF150E006F6AC6 /* SpeakerOutput.swift */; };
 		5254DC6D20EF418D006F6AC6 /* NSObject+Exception.h in Headers */ = {isa = PBXBuildFile; fileRef = 5254DC6820EF418C006F6AC6 /* NSObject+Exception.h */; };
 		5254DC6E20EF418D006F6AC6 /* NSObject+Exception.h in Headers */ = {isa = PBXBuildFile; fileRef = 5254DC6820EF418C006F6AC6 /* NSObject+Exception.h */; };
@@ -18,7 +19,6 @@
 		5254DC7420EF418D006F6AC6 /* TPCircularBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5254DC6B20EF418C006F6AC6 /* TPCircularBuffer.h */; };
 		5254DC7520EF418D006F6AC6 /* TPCircularBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5254DC6C20EF418D006F6AC6 /* TPCircularBuffer.m */; };
 		5254DC7620EF418D006F6AC6 /* TPCircularBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5254DC6C20EF418D006F6AC6 /* TPCircularBuffer.m */; };
-		529A66B720FF2C980049441E /* MovieStreamInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529A66B620FF2C980049441E /* MovieStreamInput.swift */; };
 		BC09239E1C92658200A2ADFA /* ShaderProgram_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC09239D1C92658200A2ADFA /* ShaderProgram_Tests.swift */; };
 		BC0923A11C92661D00A2ADFA /* Pipeline_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC09239F1C9265A600A2ADFA /* Pipeline_Tests.swift */; };
 		BC0923A21C92664900A2ADFA /* Framebuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB279EB1C8D11630013E213 /* Framebuffer.swift */; };
@@ -385,13 +385,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		52262CC621003BC200846D5C /* MovieStreamInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MovieStreamInput.swift; path = Source/iOS/MovieStreamInput.swift; sourceTree = "<group>"; };
 		5254D30620EF150E006F6AC6 /* SpeakerOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpeakerOutput.swift; path = Source/iOS/SpeakerOutput.swift; sourceTree = "<group>"; };
 		5254DC6820EF418C006F6AC6 /* NSObject+Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+Exception.h"; path = "Source/NSObject+Exception.h"; sourceTree = "<group>"; };
 		5254DC6920EF418C006F6AC6 /* Objective-CBridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Objective-CBridgingHeader.h"; path = "Source/Objective-CBridgingHeader.h"; sourceTree = "<group>"; };
 		5254DC6A20EF418C006F6AC6 /* NSObject+Exception.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+Exception.m"; path = "Source/NSObject+Exception.m"; sourceTree = "<group>"; };
 		5254DC6B20EF418C006F6AC6 /* TPCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPCircularBuffer.h; path = Source/TPCircularBuffer.h; sourceTree = "<group>"; };
 		5254DC6C20EF418D006F6AC6 /* TPCircularBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPCircularBuffer.m; path = Source/TPCircularBuffer.m; sourceTree = "<group>"; };
-		529A66B620FF2C980049441E /* MovieStreamInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieStreamInput.swift; sourceTree = "<group>"; };
 		BC09239D1C92658200A2ADFA /* ShaderProgram_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShaderProgram_Tests.swift; path = Tests/ShaderProgram_Tests.swift; sourceTree = SOURCE_ROOT; };
 		BC09239F1C9265A600A2ADFA /* Pipeline_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Pipeline_Tests.swift; path = Tests/Pipeline_Tests.swift; sourceTree = SOURCE_ROOT; };
 		BC1E12F41C9F2FD7008F844F /* ThreeInput.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = ThreeInput.vsh; path = Source/Operations/Shaders/ThreeInput.vsh; sourceTree = "<group>"; };
@@ -1132,12 +1132,12 @@
 		BC9E350A1E524C8000B8604F /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				52262CC621003BC200846D5C /* MovieStreamInput.swift */,
 				BC9E350B1E524CB900B8604F /* Camera.swift */,
 				BC9E35111E524CE400B8604F /* YUVConversionFullRange_GLES.fsh */,
 				BC9E35131E524CE400B8604F /* YUVConversionFullRangeUVPlanar_GLES.fsh */,
 				BC9E35141E524CE400B8604F /* YUVConversionVideoRange_GLES.fsh */,
 				BC9E350C1E524CB900B8604F /* MovieInput.swift */,
-				529A66B620FF2C980049441E /* MovieStreamInput.swift */,
 				CE5CB41220079BFA0089E54D /* StreamInput.swift */,
 				BC9E350D1E524CB900B8604F /* PictureInput.swift */,
 			);
@@ -1718,7 +1718,7 @@
 				BC9E356C1E5256C700B8604F /* HueAdjustment.swift in Sources */,
 				BC9E35C91E5257ED00B8604F /* HueBlend.swift in Sources */,
 				BC9E35AE1E52579600B8604F /* Crosshatch.swift in Sources */,
-				529A66B720FF2C980049441E /* MovieStreamInput.swift in Sources */,
+				52262CC721003BC200846D5C /* MovieStreamInput.swift in Sources */,
 				BC9E35281E524D5700B8604F /* PictureOutput.swift in Sources */,
 				BC9E35CA1E5257F100B8604F /* LightenBlend.swift in Sources */,
 				BC9E35291E524D5B00B8604F /* MovieOutput.swift in Sources */,
