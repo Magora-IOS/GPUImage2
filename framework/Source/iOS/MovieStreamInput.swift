@@ -19,127 +19,142 @@ public class MovieStreamInput: ImageSource {
     let asset:AVAsset
     let playAtActualSpeed:Bool
     let loop:Bool
-    var videoEncodingIsFinished = false
+    
     var previousFrameTime = kCMTimeZero
     var previousActualFrameTime = CFAbsoluteTimeGetCurrent()
     
     var numberOfFramesCaptured = 0
     var totalFrameTimeDuringCapture:Double = 0.0
+    
+    
+    // MARK: -
+    // MARK: Playback control
+
     var isPlaying = false
+    var gavPlayer:AVPlayer = AVPlayer()
+    var gplayerItem:AVPlayerItem!
+    var goutput:AVPlayerItemVideoOutput!
     
     public init(asset:AVAsset, playAtActualSpeed:Bool = false, loop:Bool = false) throws {
         self.asset = asset
         self.playAtActualSpeed = playAtActualSpeed
         self.loop = loop
         self.yuvConversionShader = crashOnShaderCompileFailure("MovieInput"){try sharedImageProcessingContext.programForVertexShader(defaultVertexShaderForInputs(2), fragmentShader:YUVConversionFullRangeFragmentShader)}
+        self.gplayerItem = AVPlayerItem(asset: asset)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying(notification:)),
+                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: self.gavPlayer.currentItem)
     }
     
     public convenience init(url:URL, playAtActualSpeed:Bool = false, loop:Bool = false) throws {
         let inputOptions = [AVURLAssetPreferPreciseDurationAndTimingKey:NSNumber(value:true)]
         let inputAsset = AVURLAsset(url:url, options:inputOptions)
         try self.init(asset:inputAsset, playAtActualSpeed:playAtActualSpeed, loop:loop)
-        self.videoURL = url
+        self.gplayerItem = AVPlayerItem(url: url)
+        //Set maximum seek accurancy
+        self.gplayerItem.seek(to: kCMTimeZero, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+        self.gavPlayer.replaceCurrentItem(with: self.gplayerItem)
     }
     
-    // MARK: -
-    // MARK: Playback control
+    @objc
+    func playerDidFinishPlaying(notification: NSNotification) {
+        self.isPlaying = false
+        self.delegate?.didFinishMovie()
+    }
     
-    var gavPlayer:AVPlayer = AVPlayer()
-    var gplayerItem:AVPlayerItem!
-    var goutput:AVPlayerItemVideoOutput!
-    var videoURL:URL!
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
-    public func start(atTime time: CMTime? = nil) {
-        let startTime: CMTime = time ?? CMTimeMakeWithSeconds(0, 100)
-        
-        isPlaying = true
-        gplayerItem = AVPlayerItem(url: videoURL)
-        
-        gavPlayer.replaceCurrentItem(with: gplayerItem)
-        if self.gavPlayer.status == .readyToPlay {
-            self.gavPlayer.seek(to: startTime) { [unowned self] (completed: Bool) -> Void in
-                self.gavPlayer.play()
-            }
+    public func start(atTime startTime: CMTime? = nil) {
+        if self.isPlaying {
+            self.gplayerItem.cancelPendingSeeks()
+            self.asset.cancelLoading()
         }
-        self.gavPlayer.play()
         
         
-        asset.loadValuesAsynchronously(forKeys: ["tracks"]) {
-            var error: NSError? = nil
-            let status = self.asset.statusOfValue(forKey: "tracks", error: &error)
-            
-            switch status {
-            case .loaded:
-                let settings:Dictionary = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange]
-                let output:AVPlayerItemVideoOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: settings)
-                self.gplayerItem.add(output)
-                self.goutput = output
-                while (self.isPlaying) {
-                    self.readNextVideoFrame()
-                }
+        let playBlock = {
+            self.asset.loadValuesAsynchronously(forKeys: ["tracks"]) {
+                var error: NSError? = nil
+                let status = self.asset.statusOfValue(forKey: "tracks", error: &error)
                 
-                break
-            // Sucessfully loaded, continue processing
-            default:
-                print("Failed to load the tracks")
-                break
+                switch status {
+                case .loaded:
+                    let settings:Dictionary = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange]
+                    let output:AVPlayerItemVideoOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: settings)
+                    self.gplayerItem.add(output)
+                    self.goutput = output
+                    self.isPlaying = true
+                    
+                    self.beginProcessing()
+                    self.gavPlayer.play()
+                    break
+                // Sucessfully loaded, continue processing
+                default:
+                    print("Failed to load the tracks")
+                    break
+                }
             }
         }
-    }
-    
-    public func cancel() {
-        self.endProcessing()
+        
+        if let startTime = startTime {
+            self.gavPlayer.seek(to: startTime, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero) { (isSuccess) in
+                playBlock()
+            }
+        } else {
+            playBlock()
+        }
+        
     }
     
     public func pause() {
-        self.endProcessing()
-    }
-    
-    func endProcessing() {
         self.gavPlayer.pause()
         self.isPlaying = false
-        self.delegate?.didFinishMovie()
     }
     
     // MARK: -
     // MARK: Internal processing functions
     
-    func readNextVideoFrame() {
-        if ( !videoEncodingIsFinished) {
-            print(self.gplayerItem.currentTime())
-            
-            
-            if let sampleBuffer: CVPixelBuffer = self.goutput.copyPixelBuffer(forItemTime: self.gplayerItem.currentTime(), itemTimeForDisplay: nil) {
-                if (playAtActualSpeed) {
-                    // Do this outside of the video processing queue to not slow that down while waiting
-                    let currentSampleTime = self.gplayerItem.currentTime()
-                    let differenceFromLastFrame = CMTimeSubtract(currentSampleTime, previousFrameTime)
-                    let currentActualTime = CFAbsoluteTimeGetCurrent()
-                    
-                    let frameTimeDifference = CMTimeGetSeconds(differenceFromLastFrame)
-                    let actualTimeDifference = currentActualTime - previousActualFrameTime
-                    
-                    if (frameTimeDifference > actualTimeDifference) {
-                        //  usleep(UInt32(round(1000000.0 * (frameTimeDifference - actualTimeDifference))))
-                    }
-                    
-                    previousFrameTime = currentSampleTime
-                    previousActualFrameTime = CFAbsoluteTimeGetCurrent()
+    func beginProcessing() {
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+            while (self?.isPlaying ?? false) {
+                guard self?.gplayerItem.status == .readyToPlay else {
+                    continue
                 }
                 
-                sharedImageProcessingContext.runOperationSynchronously{
-                    self.process(movieFrame:sampleBuffer, withSampleTime:self.gplayerItem.currentTime())
-                }
-            } else {
-                if (!loop) {
-                    //      videoEncodingIsFinished = true
-                    if (videoEncodingIsFinished) {
-                        self.endProcessing()
+                if let currentTime = self?.gplayerItem.currentTime() {
+                    if self?.goutput.hasNewPixelBuffer(forItemTime: currentTime) ?? false {
+                        self?.readNextVideoFrame(forItemTime: currentTime)
                     }
                 }
             }
         }
+    }
+    
+    func readNextVideoFrame(forItemTime currentSampleTime: CMTime) {
         
+        //sampleBuffer could be nil while loading from the network
+        if let sampleBuffer: CVPixelBuffer = self.goutput.copyPixelBuffer(forItemTime: currentSampleTime, itemTimeForDisplay: nil) {
+            if (playAtActualSpeed) {
+                // Do this outside of the video processing queue to not slow that down while waiting
+                let differenceFromLastFrame = CMTimeSubtract(currentSampleTime, previousFrameTime)
+                let currentActualTime = CFAbsoluteTimeGetCurrent()
+                
+                let frameTimeDifference = CMTimeGetSeconds(differenceFromLastFrame)
+                let actualTimeDifference = currentActualTime - previousActualFrameTime
+                
+                if (frameTimeDifference > actualTimeDifference) {
+                    usleep(UInt32(round(1000000.0 * (frameTimeDifference - actualTimeDifference))))
+                }
+                
+                previousFrameTime = currentSampleTime
+                previousActualFrameTime = CFAbsoluteTimeGetCurrent()
+            }
+            
+            sharedImageProcessingContext.runOperationSynchronously{
+                self.process(movieFrame:sampleBuffer, withSampleTime: currentSampleTime)
+            }
+        }
     }
     
     func process(movieFrame:CVPixelBuffer, withSampleTime:CMTime) {
@@ -176,7 +191,7 @@ public class MovieStreamInput: ImageSource {
         glTexParameterf(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_WRAP_S), GLfloat(GL_CLAMP_TO_EDGE));
         glTexParameterf(GLenum(GL_TEXTURE_2D), GLenum(GL_TEXTURE_WRAP_T), GLfloat(GL_CLAMP_TO_EDGE));
         
-        var orientation:ImageOrientation = .portrait
+        let orientation:ImageOrientation = .portrait
         
         let luminanceFramebuffer: Framebuffer
         do {
@@ -212,7 +227,6 @@ public class MovieStreamInput: ImageSource {
         
         chrominanceFramebuffer.cache = sharedImageProcessingContext.framebufferCache
         chrominanceFramebuffer.lock()
-        /////
         
         let movieFramebuffer = sharedImageProcessingContext.framebufferCache.requestFramebufferWithProperties(orientation:orientation, size:GLSize(width:GLint(bufferWidth), height:GLint(bufferHeight)), textureOnly:false)
         
