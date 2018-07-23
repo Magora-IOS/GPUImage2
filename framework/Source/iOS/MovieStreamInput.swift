@@ -9,12 +9,21 @@ public class MovieStreamInput: ImageSource {
     public let targets = TargetContainer()
     public var runBenchmark = false
     public weak var delegate: MovieStreamInputDelegate?
+    public private(set) var gavPlayer:AVPlayer = AVPlayer()
     
     public var currentTime:CMTime? {
-        get {
-            return self.gavPlayer.currentTime()
-        }
+        return self.gavPlayer.currentTime()
     }
+    
+    public var duration:CMTime? {
+        return self.gavPlayer.currentItem?.duration
+    }
+    
+    public var isPlaybackLikelyToKeepUp: Bool? {
+        return self.gavPlayer.currentItem?.isPlaybackLikelyToKeepUp
+    }
+    
+    
     let yuvConversionShader:ShaderProgram
     let asset:AVAsset
     let playAtActualSpeed:Bool
@@ -29,9 +38,8 @@ public class MovieStreamInput: ImageSource {
     
     // MARK: -
     // MARK: Playback control
-
+    
     var isPlaying = false
-    var gavPlayer:AVPlayer = AVPlayer()
     var gplayerItem:AVPlayerItem!
     var goutput:AVPlayerItemVideoOutput!
     
@@ -60,6 +68,7 @@ public class MovieStreamInput: ImageSource {
     func playerDidFinishPlaying(notification: NSNotification) {
         self.isPlaying = false
         self.delegate?.didFinishMovie()
+        print("playerDidFinishPlaying")
     }
     
     deinit {
@@ -110,6 +119,10 @@ public class MovieStreamInput: ImageSource {
     public func pause() {
         self.gavPlayer.pause()
         self.isPlaying = false
+    }
+    
+    public func seek(to time: CMTime, completion: @escaping (Bool) -> ()) {
+        self.gavPlayer.seek(to: time, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero, completionHandler: completion)
     }
     
     // MARK: -
