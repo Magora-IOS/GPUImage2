@@ -1,6 +1,5 @@
 import Foundation
 import AVFoundation
-import VIMediaCache
 
 public protocol MovieStreamInputDelegate: class {
     func didFinishMovie()
@@ -11,7 +10,6 @@ public class MovieStreamInput: ImageSource {
     public var runBenchmark = false
     public weak var delegate: MovieStreamInputDelegate?
     public private(set) var gavPlayer:AVPlayer = AVPlayer()
-    private let resourceLoaderManager = VIResourceLoaderManager()
     
     public var currentTime:CMTime? {
         return self.gavPlayer.currentTime()
@@ -60,7 +58,7 @@ public class MovieStreamInput: ImageSource {
         let inputOptions = [AVURLAssetPreferPreciseDurationAndTimingKey:NSNumber(value:true)]
         let inputAsset = AVURLAsset(url:url, options:inputOptions)
         try self.init(asset:inputAsset, playAtActualSpeed:playAtActualSpeed, loop:loop)
-        self.gplayerItem = self.resourceLoaderManager.playerItem(with: url)
+        self.gplayerItem = AVPlayerItem(url: url)
         //Set maximum seek accurancy
         self.gplayerItem.seek(to: kCMTimeZero, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
         self.gavPlayer.replaceCurrentItem(with: self.gplayerItem)
