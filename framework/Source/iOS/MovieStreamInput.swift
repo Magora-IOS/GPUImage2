@@ -59,6 +59,7 @@ public class MovieStreamInput: ImageSource {
         let inputAsset = AVURLAsset(url:url, options:inputOptions)
         try self.init(asset:inputAsset, playAtActualSpeed:playAtActualSpeed, loop:loop)
         self.gplayerItem = AVPlayerItem(url: url)
+
         //Set maximum seek accurancy
         self.gplayerItem.seek(to: kCMTimeZero, toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
         self.gavPlayer.replaceCurrentItem(with: self.gplayerItem)
@@ -66,9 +67,11 @@ public class MovieStreamInput: ImageSource {
     
     @objc
     func playerDidFinishPlaying(notification: NSNotification) {
-        self.isPlaying = false
-        self.delegate?.didFinishMovie()
-        print("playerDidFinishPlaying")
+        if (notification.object as? AVPlayerItem) == self.gavPlayer.currentItem {
+            self.isPlaying = false
+            self.delegate?.didFinishMovie()
+            print("playerDidFinishPlaying")
+        }
     }
     
     deinit {
