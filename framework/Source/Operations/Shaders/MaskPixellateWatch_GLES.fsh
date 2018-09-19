@@ -29,7 +29,7 @@ void main()
         highp int index = yIndex * int(X_COUNT) + xIndex;
         if (blurredCoords[index] == 1) {
             highp vec2 p = textureCoordinate.xy * frameBufferResolution.xy;
-            gl_FragColor = texture2D(inputImageTexture, vec2(floor((p.x + 0.5) / (frameBufferResolution.y / 10.0)) * (frameBufferResolution.y / 10.0) / frameBufferResolution.x, floor((p.y + 0.5) / (frameBufferResolution.y / 40.0)) * (frameBufferResolution.y / 40.0) / frameBufferResolution.y ));
+            gl_FragColor = texture2D(inputImageTexture, vec2(floor((p.x + 0.5) / (frameBufferResolution.y / (float(cellsInWidth) * 0.5))) * (frameBufferResolution.y / (float(cellsInWidth) * 0.5)) / frameBufferResolution.x, floor((p.y + 0.5) / (frameBufferResolution.y / (float(cellsInWidth) * 2.0))) * (frameBufferResolution.y / (float(cellsInWidth) * 2.0)) / frameBufferResolution.y ));
         } else {
             gl_FragColor = texture2D(inputImageTexture, textureCoordinate);
         }
