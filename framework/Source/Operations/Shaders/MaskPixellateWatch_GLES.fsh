@@ -3,11 +3,12 @@ uniform highp vec2 frameBufferResolution;
 uniform sampler2D inputImageTexture;
 uniform highp int blurredCoords[200];
 uniform highp int portrait;
+uniform highp int cellsInWidth;
 #define X_COUNT 10
 #define Y_COUNT 20
 #define X_COORD gl_FragCoord.y
 #define Y_COORD (frameBufferResolution.y - gl_FragCoord.x)
-#define S (frameBufferResolution.x / 20.0) // The cell size.
+#define S (frameBufferResolution.x / cellsInWidth) // The cell size.
 void main()
 {
     //vertical

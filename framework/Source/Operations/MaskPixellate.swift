@@ -55,7 +55,13 @@ public class MaskPixellateWatch: BasicOperation {
         }
     }
     
-    public init(resolution:Size, pixelMask:[Int]) {
+    public var cellsInWidth: Int = 20 {
+        didSet {
+            uniformSettings["cellsInWidth"] = cellsInWidth
+        }
+    }
+    
+    public init(resolution:Size, pixelMask:[Int], cellsAmountOnShortSide:Int) {
         super.init(fragmentShader:MaskPixellateWatchFragmentShader, numberOfInputs:1)
         if pixelMask.count != 200 {
             let array = Array(repeating: 1, count: 200)
@@ -65,9 +71,10 @@ public class MaskPixellateWatch: BasicOperation {
         }
         ({u_Resolution = resolution})()
         ({fractionalWidthOfAPixel = resolution.width / 10.0})()
+        ({cellsInWidth = cellsAmountOnShortSide})()
     }
     
-    public func changeMask(pixelMask:[Int]) {
+    public func changeMask(pixelMask:[Int], cellsAmountOnShortSide:Int) {
         if pixelMask.count != 200 {
             let array = Array(repeating: 1, count: 200)
             ({blurredCoords = array})()
@@ -76,5 +83,6 @@ public class MaskPixellateWatch: BasicOperation {
         }
         
         ({fractionalWidthOfAPixel = u_Resolution.width / 10.0})()
+        ({cellsInWidth = cellsAmountOnShortSide})()
     }
 }
