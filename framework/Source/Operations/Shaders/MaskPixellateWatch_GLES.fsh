@@ -8,7 +8,7 @@ uniform highp int cellsInWidth;
 #define Y_COUNT 20
 #define X_COORD gl_FragCoord.y
 #define Y_COORD (frameBufferResolution.y - gl_FragCoord.x)
-#define S (frameBufferResolution.x / cellsInWidth) // The cell size.
+#define S (frameBufferResolution.x / float(cellsInWidth)) // The cell size.
 void main()
 {
     //vertical
