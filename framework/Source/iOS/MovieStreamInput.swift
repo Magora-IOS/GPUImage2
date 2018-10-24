@@ -85,26 +85,26 @@ public class MovieStreamInput: ImageSource {
         }
         
         
-        let playBlock = {
-            self.asset.loadValuesAsynchronously(forKeys: ["tracks"]) {
+        let playBlock = { [weak self] in
+            self?.asset.loadValuesAsynchronously(forKeys: ["tracks"]) {
                 var error: NSError? = nil
-                let status = self.asset.statusOfValue(forKey: "tracks", error: &error)
-                
-                switch status {
-                case .loaded:
-                    let settings:Dictionary = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange]
-                    let output:AVPlayerItemVideoOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: settings)
-                    self.gplayerItem.add(output)
-                    self.goutput = output
-                    self.isPlaying = true
-                    
-                    self.beginProcessing()
-                    self.gavPlayer.play()
-                    break
-                // Sucessfully loaded, continue processing
-                default:
-                    print("Failed to load the tracks")
-                    break
+                if let status = self?.asset.statusOfValue(forKey: "tracks", error: &error) {
+                    switch status {
+                    case .loaded:
+                        let settings:Dictionary = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange]
+                        let output:AVPlayerItemVideoOutput = AVPlayerItemVideoOutput(pixelBufferAttributes: settings)
+                        self?.gplayerItem.add(output)
+                        self?.goutput = output
+                        self?.isPlaying = true
+                        
+                        self?.beginProcessing()
+                        self?.gavPlayer.play()
+                        break
+                    // Sucessfully loaded, continue processing
+                    default:
+                        print("Failed to load the tracks")
+                        break
+                    }
                 }
             }
         }
